@@ -104,8 +104,8 @@ def verify_is_DNA(sequence, record):
         if not unique_chars.issubset(allowed_chars):
             sys.exit(
                 "Error: Please check your input FASTA is DNA. The sequence "
-                "contains the following characters which are not valid: "
-                f"{bad_characters}"
+                f"for record {record} contains the following characters which "
+                f"are not valid: {bad_characters}"
             )
     else:
         print(f"Warning: empty sequence found for record: {record}")
