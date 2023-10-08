@@ -30,8 +30,8 @@ The script takes a FASTA file (which can be a multi-FASTA file with multiple seq
 usage: generate_rev_comp.py {ARGUMENTS}
 
 required arguments:
- --input_fasta/-i [file]       Path to the input FASTA file
- --output_fasta/-o [file]      Name of the output FASTA file
+ --input_fasta/-i [str]       Path to the input FASTA file
+ --output_fasta/-o [str]      Name of the output FASTA file
 ```
 
 ## DOPS 3
