@@ -18,10 +18,10 @@ A FASTA file containing the DNA sequence of the BRCA2 gene (*'BRCA2.fna'*) was o
 ### Algorithm deployed
 - Read the FASTA file (specified as a command line argument) into a dictionary using the Biopython `SeqIO.parse()` and `SeqIO.to_dict()` functions.
     - The dictionary contains the name of each sequence as keys and the values hold information about the sequence as a `SeqRecord` object; the sequence ID, name, description, annotation and the sequence itself.
-- Perform checks to ensure the sequence is a DNA sequence and the file formatted correctly.
+- Perform checks to ensure the sequence is a DNA sequence and the file is formatted correctly.
 - Loop over the `SeqRecord` objects and use the Biopython `reverse_complement()` function to obtain the reverse complement of the sequence.
 - Create a new `SeqRecord` object for each sequence, keeping the name, ID and annotations the same but adding `reverse complement` to the description in the header of the sequence. Append each object to a list.
-- Write the list of new SeqRecord objects to a new FASTA file using `SeqIO.write`.
+- Write the list of new SeqRecord objects to a new FASTA file, named according to the command line argument, using `SeqIO.write`.
 
 ### Usage
 The script takes a FASTA file (which can be a multi-FASTA file with multiple sequences) and outputs a FASTA file containing the reverse complement of each sequence. The tool can be run as follows:
