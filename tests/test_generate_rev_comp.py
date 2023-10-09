@@ -19,7 +19,29 @@ from generate_rev_comp import generate_rev_comp as grc
 from tests import TEST_DATA_DIR
 
 
+class TestOpeningFile(unittest.TestCase):
+    """
+    Test errors raised correctly when giving FASTA file with no sequence
+    headers or a string instead of a file
+    """
+    no_headers_fasta = os.path.join(TEST_DATA_DIR, "no_header.fa")
+
+    def test_check_file_headers(self):
+        self.assertRaises(
+            SystemExit, grc.create_fasta_dict, self.no_headers_fasta
+        )
+
+
+    def test_check_file_exists(self):
+        self.assertRaises(
+            AssertionError, grc.create_fasta_dict, "This is a string"
+        )
+
+
 class TestCreateFASTADict(unittest.TestCase):
+    """
+    Check that the dictionary is created correctly from a FASTA file
+    """
     fasta1 = os.path.join(TEST_DATA_DIR, "BRCA2.fna")
     fasta_dict1 = grc.create_fasta_dict(fasta1)
 
@@ -57,24 +79,10 @@ class TestCreateFASTADict(unittest.TestCase):
         )
 
 
-class TestReverseComplement(unittest.TestCase):
-    test_sequence1 = 'ACTGATNATCGGGACTA'
-    test_sequence2 = 'actgatgtcan-gct'
-
-    def test_reverse_complement1(self):
-        assert grc.reverse_comp_sequence(self.test_sequence1) == (
-            'TAGTCCCGATNATCAGT'
-        ), "Reverse complement not correct"
-
-
-    def test_reverse_complement2(self):
-        assert grc.reverse_comp_sequence(self.test_sequence2) == (
-            'agc-ntgacatcagt'
-        ), "Reverse complement not correct"
-
-
-
 class TestVerifyIsDNA(unittest.TestCase):
+    """
+    Test that error is raised correctly when sequence is given that is not DNA
+    """
     not_DNA_sequence_fasta = os.path.join(TEST_DATA_DIR, "not_DNA.fa")
 
     def test_DNA_verify(self):
@@ -83,22 +91,29 @@ class TestVerifyIsDNA(unittest.TestCase):
         )
 
 
-class TestOpeningFile(unittest.TestCase):
-    no_headers_fasta = os.path.join(TEST_DATA_DIR, "no_header.fa")
+class TestReverseComplement(unittest.TestCase):
+    """
+    Check that the reverse complement is made correctly
+    """
+    test_sequence1 = 'ACTGATNATCGGGACTA'
+    test_sequence2 = 'actgatgtcan-gct'
 
-    def test_check_file_headers(self):
-        self.assertRaises(
-            SystemExit, grc.create_fasta_dict, self.no_headers_fasta
-        )
+    def test_reverse_complement1(self):
+        assert grc.reverse_comp_sequence(self.test_sequence1) == (
+            'TAGTCCCGATNATCAGT'
+        ), "Reverse complement not correct with Ns"
 
 
-    def test_check_file_exists(self):
-        self.assertRaises(
-            AssertionError, grc.create_fasta_dict, "This is a string"
-        )
+    def test_reverse_complement2(self):
+        assert grc.reverse_comp_sequence(self.test_sequence2) == (
+            'agc-ntgacatcagt'
+        ), "Reverse complement not correct with lower case letters"
 
 
 class TestCreateReverseCompRecords(unittest.TestCase):
+    """
+    Check that new SeqRecord object with reverse complemenent is made correctly
+    """
     test_input_dict = {
         'My_DNA_sequence': SeqRecord(
             seq=Seq('ACTGAGCCA'),
@@ -118,7 +133,9 @@ class TestCreateReverseCompRecords(unittest.TestCase):
 
         assert output.name == 'My_DNA_sequence', "Name not kept the same"
 
-        assert output.description == 'My_DNA_sequence This is a DNA sequence reverse complement', "Reverse complement not added to sequence description"
+        assert output.description == (
+            'My_DNA_sequence This is a DNA sequence reverse complement'
+        ), "Reverse complement not added to sequence description"
 
 
 if __name__ == '__main__':
