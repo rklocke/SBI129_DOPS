@@ -124,16 +124,22 @@ class TestCreateReverseCompRecords(unittest.TestCase):
         )
     }
 
+    output = grc.generate_reverse_comp_records(test_input_dict)[0]
+
+    def test_output_sequence(self):
+        assert self.output.seq == Seq('TGGCTCAGT'), "Reverse complement not correct"
+
+
+    def test_output_id(self):
+        assert self.output.id == 'My_DNA_sequence', "ID not kept the same"
+
+
+    def test_output_name(self):
+        assert self.output.name == 'My_DNA_sequence', "Name not kept the same"
+
+
     def test_output_description(self):
-        output = grc.generate_reverse_comp_records(self.test_input_dict)[0]
-
-        assert output.seq == Seq('TGGCTCAGT'), "Revese complement not correct"
-
-        assert output.id == 'My_DNA_sequence', "ID not kept the same"
-
-        assert output.name == 'My_DNA_sequence', "Name not kept the same"
-
-        assert output.description == (
+        assert self.output.description == (
             'My_DNA_sequence This is a DNA sequence reverse complement'
         ), "Reverse complement not added to sequence description"
 
