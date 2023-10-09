@@ -35,7 +35,7 @@ required arguments:
 ```
 
 ## DOPS 3
-
+### Task
 *Write a set of unit tests to evaluate whether the output of a script or set of functions is correct, including edge cases.*
-
+### Description
 The `tests` directory contains test data and the `test_generate_rev_comp.py` script, which includes a selection of unit tests to test functions defined within `generate_rev_comp.py`. It can be run with the `pytest` command from within the parent directory.
